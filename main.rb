@@ -1,8 +1,7 @@
 Encoding.default_external = 'utf-8'
 
 require 'csv'
-require './equipment'
-require './ingredient'
+require './cooking'
 require './dish'
 
 class Main
@@ -13,13 +12,19 @@ class Main
     @ingredient_list = Array.new
     # 調理器具リスト
     @equipment_list = Array.new
+    # 料理idカウンター
+    @dish_id_counter = 0
+    # 材料idカウンター
+    @ingredient_id_counter = 0
+    # 料理道具idカウンター
+    @equipment_id_counter = 0
   end
   def main
     # tableAの処理
     table_a_csv_data = CSV.read('tableA.csv', headers: true)
     table_a_csv_data.each do |cd|
       # 料理
-      dish = Dish.new(name: cd[0])
+      dish = Dish.new(id:@dish_id_counter+=1, name: cd[0])
 
       # 料理の材料リスト
       dish_ingredient_list = Array.new
@@ -37,7 +42,7 @@ class Main
         if overlap_ingredient
           dish_ingredient_list.push(overlap_ingredient)
         else
-          ingredient = Ingredient.new(name: idl)
+          ingredient = Cooking.new(id: @ingredient_id_counter+=1, name: idl)
           @ingredient_list.push(ingredient)
           dish_ingredient_list.push(ingredient)
         end
@@ -71,7 +76,7 @@ class Main
         if overlap_equipment
           dish_equipment_list.push(overlap_equipment)
         else
-          ingredient = Equipment.new(name: equipment_data)
+          ingredient = Cooking.new(id: @equipment_id_counter+=1, name: equipment_data)
           @equipment_list.push(ingredient)
           dish_equipment_list.push(ingredient)
         end
@@ -99,17 +104,17 @@ class Main
     puts "{"
     puts "\"dishes\":["
     @dish_list.each do |dish|
-      dish.info
+      puts dish.info
     end
     puts "],"
     puts "\"ingredients\":["
     @ingredient_list.each do |ingredient|
-      ingredient.info
+      puts ingredient.info
     end
     puts "],"
     puts "\"equipments\":["
     @equipment_list.each do |equipment|
-      equipment.info
+      puts equipment.info
     end
     puts "]"
     puts "}"
