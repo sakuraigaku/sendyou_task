@@ -4,10 +4,10 @@ class Dish < Cooking
   attr_accessor :ingredients
   # 料理の調理器具
   attr_accessor :equipments
+  @@id_counter=0
 
-  def initialize(id:,name:)
-    super(id: id,name: name)
-    self.name = name
+  def initialize(name:)
+    super(id: @@id_counter+=1,name: name)
   end
 
   # 料理パラメータ出力
