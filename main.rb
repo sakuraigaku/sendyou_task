@@ -14,14 +14,14 @@ class Main
     equipment_list = Array.new
 
     # tableAの処理
-    table_data("tableA.csv", ingredient_list,dish_list)
+    set_csv_data_to_list("tableA.csv", ingredient_list, dish_list)
     # tableBの処理
-    table_data("tableB.csv", equipment_list,dish_list)
+    set_csv_data_to_list("tableB.csv", equipment_list, dish_list)
     # 回答出力
     answer_output(dish_list,equipment_list,ingredient_list)
   end
 
-  def table_data(table_path, cooking_list,dish_list)
+  def set_csv_data_to_list(table_path, cooking_list, dish_list)
     id_counter = 0
     table_csv_data = CSV.read(table_path, headers: true)
     table_csv_data.each do |cd|
